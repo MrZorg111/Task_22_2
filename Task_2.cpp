@@ -7,20 +7,30 @@ void sym_code (char& a, std::string& b) {
 }
 
 int main() {
-    std::map<char, std::string> registry;
-    char sym;
-    std::string surname, command;
-    for (int i = 0; i < 10; i++) {
-        std::cout << "Fill out the registration form by entering the names of the patients: ";
-        std::cin >> surname;
-        sym_code(sym, surname);
-        registry.insert(std::pair<char, std::string>(sym, surname));
-    }
-    // Let's start calling patients!
-    for (std::map<char, std::string>::iterator it = registry.begin(); it != registry.end(); it++) {
-        std::cout << "To call the patient, enter the command (next):";
-        std::cin >> command;
-        std::cout << it -> second << "\n";
-    }
+    std::string stop = "go", word;
+    std::map<std::string, int> surname;
+    do {
+        std::cout << "Enter the last name of the patient who came up or enter next to call for an appointment:";
+        std::cin >> word;
+        if (word != "next") {
+            if (surname.count(word) > 0) {
+                std::map<std::string, int>::iterator it = surname.find(word);
+                it -> second += 1;
+            } else {
+                surname.insert(std::pair<std::string, int>(word, 1));
+            }
+        }
+        else {
+            std::map<std::string, int>::iterator it = surname.begin();
+            std::cout << it -> first << "\n";
+            if ((it -> second -= 1) == 0) {
+                surname.erase(it);
+            }
+        }
+        if (surname.begin() == surname.end()) {
+            stop = "stop";
+        }
+    }while (stop != "stop");
+
     return 0;
 }
