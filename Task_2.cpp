@@ -21,10 +21,15 @@ int main() {
             }
         }
         else {
-            std::map<std::string, int>::iterator it = surname.begin();
-            std::cout << it -> first << "\n";
-            if ((it -> second -= 1) == 0) {
-                surname.erase(it);
+            if (!surname.empty()) {
+                std::map<std::string, int>::iterator it = surname.begin();
+                std::cout << it->first << "\n";
+                if ((it->second -= 1) == 0) {
+                    surname.erase(it);
+                }
+            }
+            else {
+                std::cout << "The list is empty!\n";
             }
         }
         if (surname.begin() == surname.end()) {
